@@ -10,6 +10,8 @@ import nunjucks from 'nunjucks';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 
+import { localsMiddleware } from './src/api/middlewares/middleware';
+
 import { userRouter } from './src/api/routers/router.js';
 import routes from './src/api/routers/router.js';
 
@@ -25,19 +27,18 @@ app.use(cookieParser()); //cookie를 전달받아서 사용할 수 있도록 만
 app.use(bodyParser.json()); //body-parser 요청본문에 있는 데이터를 해석해서 req.body 객체로 만들어주는 미들웨어
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(localsMiddleware);
 app.use(morgan('dev')); //morgan 로그를 제공하는 미들웨어
 app.use(helmet()); //helmet 익스프레스에 보안을 더해주는 미들웨어
 
 // //static 미들웨어는 정적인 파일들을 제공하는 라우터 역할,
 // app.use('요청 경로', express.static('실제경로'));
 // app.use('/', express.static(path.join(__dirname, 'pubilc')));
+app.set('view engine', 'pug');
 
-const handleHome = (req, res) => {
-  res.send('Hello from Home');
-};
-
-app.get('/', handleHome);
-app.use('/user', userRouter);
+app.get('/', (req, res) => {
+  res.render('home', { pageTitle: 'Home' });
+});
 
 app.listen(app.get('port'), () => {
   console.log(app.get('port') + '번 포트에서 대기중..');

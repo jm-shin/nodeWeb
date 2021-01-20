@@ -6,8 +6,8 @@ const LOGOUT = '/logout';
 const SEARCH = '/search';
 
 /*users */
-const USER = '/user';
-const USER_DETAIL = '/:id'; //express는 : 부분은 변수로 처리함.
+const USERS = '/user';
+const USER_DETATIL = '/:id'; //express는 : 부분은 변수로 처리함.
 const EDIT_PROFILE = '/edit-profile';
 const CHANGE_PASSWORD = '/change-password';
 

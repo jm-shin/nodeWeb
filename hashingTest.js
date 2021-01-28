@@ -1,9 +1,15 @@
 const crypto = require('crypto');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 //node crypto 사용 예제.
 //salt, key 값 생성
 const password = 'azbc123';
-const salt = crypto.randomBytes(32).toString('base64');
+
+const salt = process.env.SALT; //dotenv 사용하는 방법
+//const salt = crypto.randomBytes(32).toString('base64');   //crypto로 난수생성해서 솔트만드는 법
+
 const hashedPassword = crypto.pbkdf2Sync(password, salt, 108236, 64, 'sha512').toString('base64');
 
 console.log('salt: ', salt);
